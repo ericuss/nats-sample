@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  apiemitter:
+    network_mode: host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - NATS_Url=nats://host.docker.internal:4222
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/ApiEmitter.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345Aa!
+      # - NATS_Url=nats://kubernetes.docker.internal:4222
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/https:ro

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  apiemitter:
+    image: ${DOCKER_REGISTRY-}apiemitter:${DOCKER_TAG-latest}
+    build:
+      context: .
+      dockerfile: ApiEmitter/Dockerfile
