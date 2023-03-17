@@ -4,5 +4,5 @@ services:
   apiemitter:
     image: ${DOCKER_REGISTRY-}apiemitter:${DOCKER_TAG-latest}
     build:
-      context: ./src/ApiEmitter
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./src/ApiEmitter/Dockerfile
