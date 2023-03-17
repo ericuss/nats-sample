@@ -28,7 +28,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2.3.0
       with:
-       file: ./Dockerfile
+       file: ./src/ApiEmitter/Dockerfile
        context: ./src/ApiEmitter
        build-args: ARCH=arm32v6 ARCH=arm32v7 ARCH=amd64
        platforms: linux/amd64,linux/arm64
