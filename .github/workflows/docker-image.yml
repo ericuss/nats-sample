@@ -15,17 +15,16 @@ jobs:
       DOCKER_TAG: ${{secrets.DOCKER_REGISTRY}}/apiemitter:${{ github.run_number }}.${{ github.run_attempt }}
     steps:
     - uses: actions/checkout@v3
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
       with:
-        platforms: linux/amd64,linux/arm64,linux/arm/v8
+        platforms: linux/amd64,linux/arm64
         
     - name: login to docker hub
       run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
-      
-    - name: echo
-      run: echo $DOCKER_TAG
-      
+            
     - name: Build and push
       uses: docker/build-push-action@v2.3.0
       with:
