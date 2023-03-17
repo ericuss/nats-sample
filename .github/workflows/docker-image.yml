@@ -11,7 +11,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      docker_tag: ${{secrets.DOCKER_REGISTRY}}/apiemitter:$(date +%s)
     steps:
     - uses: actions/checkout@v3
     - name: Set up Docker Buildx
@@ -22,6 +23,9 @@ jobs:
     - name: login to docker hub
       run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
       
+    - name: echo
+      run: echo $docker_tag
+      
     - name: Build and push
       uses: docker/build-push-action@v2.3.0
       with:
@@ -29,5 +33,5 @@ jobs:
        directory: ./src/ApiEmitter/
        build-args: ARCH=arm32v6 ARCH=arm32v7 ARCH=amd64
        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
-       tags: ${{secrets.DOCKER_REGISTRY}}/apiemitter:$(date +%s)
+       tags: $docker_tag
       
