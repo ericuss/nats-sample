@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      docker_tag: ${{secrets.DOCKER_REGISTRY}}/apiemitter:$(date +%s)
+      docker_tag: ${{secrets.DOCKER_REGISTRY}}/apiemitter:${{ github.run_number }}${{ github.run_attempt }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Docker Buildx
