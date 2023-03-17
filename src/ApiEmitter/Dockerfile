@@ -6,11 +6,10 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
-WORKDIR /src
-COPY ["src/ApiEmitter/ApiEmitter.csproj", "ApiEmitter/"]
-RUN dotnet restore "ApiEmitter/ApiEmitter.csproj"
-COPY ./src/ .
-WORKDIR "/src/ApiEmitter"
+WORKDIR /src/ApiEmitter
+COPY ["src/ApiEmitter/ApiEmitter.csproj", "."]
+RUN dotnet restore "ApiEmitter.csproj"
+COPY ./src/ApiEmitter/ .
 RUN dotnet build "ApiEmitter.csproj" -c Release -o /app/build
 
 FROM build AS publish
