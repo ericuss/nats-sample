@@ -33,7 +33,7 @@ jobs:
       with:
        file: ./src/ApiEmitter/Dockerfile
        context: .
-       build-args: ARCH=arm32v6 ARCH=arm32v7 ARCH=amd64
+       build-args: ARCH=arm32v6 ARCH=arm32v7 ARCH=amd64 --no-cache
        platforms: linux/amd64,linux/arm64
        tags: ${{ env.DOCKER_TAG }} 
        push: true
