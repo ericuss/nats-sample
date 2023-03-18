@@ -12,6 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
+      DOCKER_IMAGE_NAME: ${{secrets.DOCKER_REGISTRY}}/apiemitter
       DOCKER_IMAGE_FULLNAME: ${{secrets.DOCKER_REGISTRY}}/apiemitter:${{ github.run_number }}.${{ github.run_attempt }}
       DOCKER_CLI_EXPERIMENTAL: enabled
       DOCKER_BUILDKIT: 1
@@ -32,6 +33,13 @@ jobs:
     - name: docker buildx
       run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ env.DOCKER_IMAGE_FULLNAME }}  -f ./src/ApiEmitter/Dockerfile . --no-cache
             
+    - name: docker images
+      run: docker images
+            
+    - name: docker push
+      run: docker push ${{ env.DOCKER_IMAGE_NAME }} -a
+      
+      
  #   - name: Build and push
  #     uses: docker/build-push-action@v2.3.0
  #     with:
