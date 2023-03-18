@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      DOCKER_TAG: ${{secrets.DOCKER_REGISTRY}}/apiemitter:${{ github.run_number }}.${{ github.run_attempt }}
+      DOCKER_IMAGE_FULLNAME: ${{secrets.DOCKER_REGISTRY}}/apiemitter:${{ github.run_number }}.${{ github.run_attempt }}
       DOCKER_CLI_EXPERIMENTAL: enabled
       DOCKER_BUILDKIT: 1
       
@@ -28,13 +28,17 @@ jobs:
     - name: login to docker hub
       run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
             
-    - name: Build and push
-      uses: docker/build-push-action@v2.3.0
-      with:
-       file: ./src/ApiEmitter/Dockerfile
-       context: .
-       build-args: ARCH=arm32v6 ARCH=arm32v7 ARCH=amd64 --no-cache
-       platforms: linux/amd64,linux/arm64
-       tags: ${{ env.DOCKER_TAG }} 
-       push: true
+        
+    - name: docker buildx
+      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ env.DOCKER_IMAGE_FULLNAME }}  ./src/ApiEmitter/ --no-cache
+            
+ #   - name: Build and push
+ #     uses: docker/build-push-action@v2.3.0
+ #     with:
+ #      file: ./src/ApiEmitter/Dockerfile
+ #      context: .
+ #      build-args: ARCH=arm32v6 ARCH=arm32v7 ARCH=amd64 --no-cache
+ #      platforms: linux/amd64,linux/arm64
+ #      tags: ${{ env.DOCKER_TAG }} 
+ #      push: true
       
