@@ -6,14 +6,15 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/nightly/sdk:8.0-preview AS build
+ARG TARGETARCH
 WORKDIR /src/ApiEmitter
 COPY ["src/ApiEmitter/ApiEmitter.csproj", "."]
 RUN dotnet restore "ApiEmitter.csproj"
 COPY ./src/ApiEmitter/ .
-RUN dotnet build "ApiEmitter.csproj" -c Release -o /app/build
+RUN dotnet build "ApiEmitter.csproj" -c Release -o /app/build  -a $TARGETARCH
 
 FROM build AS publish
-RUN dotnet publish "ApiEmitter.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ApiEmitter.csproj" -c Release -o /app/publish /p:UseAppHost=false  -a $TARGETARCH
 
 FROM base AS final
 WORKDIR /app
