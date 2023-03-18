@@ -30,7 +30,7 @@ jobs:
             
         
     - name: docker buildx
-      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ env.DOCKER_IMAGE_FULLNAME }}  ./src/ApiEmitter/ --no-cache
+      run: docker -c . buildx build --platform linux/amd64,linux/arm64 -t ${{ env.DOCKER_IMAGE_FULLNAME }}  ./src/ApiEmitter/ --no-cache
             
  #   - name: Build and push
  #     uses: docker/build-push-action@v2.3.0
