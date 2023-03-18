@@ -5,7 +5,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/nightly/sdk:8.0-preview AS build
 WORKDIR /src/ApiEmitter
 COPY ["src/ApiEmitter/ApiEmitter.csproj", "."]
 RUN dotnet restore "ApiEmitter.csproj"
